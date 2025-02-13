@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  glpi-bd:
+    image: mariadb:latest
+    container_name: glpi-bd
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: glpi
+      MYSQL_USER: glpi_user
+      MYSQL_PASSWORD: glpi_pass
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+
+  glpi-app:
+     image: debian:latest
+     container_name: glpi-app
+     restart: unless-stopped
+     depends_on:
+       - glpi-bd
+     volumes:
+       - ./app:/var/www/html/
+     ports:
+      - "80:80"
+     command: >
+        sh -c "apt update && apt install -y apache2 php php-mysqli php-curl php-gd php-intl php-ldap php-imap php-xml php-zip php-bz2 php-json php-mbstring wget tar unzip && \
+              wget https://github.com/glpi-project/glpi/releases/download/10.0.18/glpi-10.0.18.tgz -O /tmp/glpi.tgz && \
+              tar -xzf /tmp/glpi.tgz -C /var/www/html/ && \
+              rm -rf /tmp/glpi.tgz && \
+              chown -R www-data:www-data /var/www/html/ && \
+              chmod -R 755 /var/www/html/ && \
+              service apache2 restart && \
+              tail -f /dev/null"
