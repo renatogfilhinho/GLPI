@@ -1,4 +1,3 @@
-```markdown
 #  Tutorial: Configuração do GLPI com Docker
 
 Este tutorial mostra como configurar o **GLPI** usando dois contêineres Docker:
@@ -6,7 +5,6 @@ Este tutorial mostra como configurar o **GLPI** usando dois contêineres Docker:
 - **`glpi-app`**: Contêiner com Apache2 para hospedar o GLPI.
 - **`glpi-bd`**: Contêiner com MariaDB para armazenar os dados do GLPI.
 
----
 
 ##  1. Instalar o Docker e o Docker Compose
 Se o Docker ainda não estiver instalado, execute:
