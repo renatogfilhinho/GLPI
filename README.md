@@ -131,9 +131,9 @@ Reiniciar os contêineres:
 ```bash
 docker-compose up -d
 ```
-```txt
+
 Documentação: <https://glpi-install.readthedocs.io/en/latest/#>
-```
+
 
 
 
