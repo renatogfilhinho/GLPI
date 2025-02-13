@@ -54,20 +54,22 @@ services:
       - "3306:3306"
 
   glpi-app:
-    image: diouxx/glpi
+    image: debian:latest
     container_name: glpi-app
     restart: unless-stopped
     depends_on:
       - glpi-bd
-    environment:
-      GLPI_DB_HOST: glpi-bd
-      GLPI_DB_NAME: glpi
-      GLPI_DB_USER: glpi_user
-      GLPI_DB_PASS: glpi_pass
     volumes:
-      - ./app:/var/www/html
+      - ./app:/var/www/html/
     ports:
       - "80:80"
+    command: >
+      sh -c "apt update && apt install -y apache2 php php-mysqli php-curl php-gd php-intl php-ldap php-imap php-xml php-zip php-bz2 php-j son php-mbstring wget tar unzip && \
+      wget https://github.com/glpi-project/glpi/releases/download/10.0.18/glpi-10.0.18.tgz -O /tmp/glpi.tgz && \
+      tar -xzf /tmp/glpi.tgz -C /var/www/html/ && \
+      rm -rf /tmp/glpi.tgz && \
+      chown -R www-data:www-data /var/www/html/ && \
+
 ```
 
 ---
@@ -88,7 +90,7 @@ Isso baixará as imagens necessárias e iniciará os contêineres.
 Abra o navegador e acesse:
 
 ```
-http://localhost
+http://localhost/glpi
 ```
 
 Ou, se estiver em outro dispositivo na mesma rede, use o IP da máquina onde está rodando o Docker.
